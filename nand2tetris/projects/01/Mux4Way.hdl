@@ -1,0 +1,35 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux4Way.hdl
+
+/**
+ * 4-way multiplexor:
+ * out = a if sel == 00
+ *       b if sel == 01
+ *       c if sel == 10
+ *       d if sel == 11
+ */
+
+CHIP Mux4Way {
+    IN a, b, c, d, sel[2];
+    OUT out;
+
+    PARTS:
+    // Put your code here:
+    Not(in=sel[1], out=notsel1a);
+    Not(in=sel[0], out=notsel0a);
+    Not(in=sel[1], out=notsel1b);
+    Not(in=sel[0], out=notsel0b);
+    And(a=notsel1a, b=notsel0a, out=w1);
+    And(a=notsel1b, b=sel[0], out=w2);
+    And(a=sel[1], b=notsel0b, out=w3);
+    And(a=sel[1], b=sel[0], out=w4);
+    And(a=a, b=w1, out=w5);
+    And(a=b, b=w2, out=w6);
+    And(a=w3, b=c, out=w7);
+    And(a=w4, b=d, out=w8);
+    Or(a=w5, b=w6, out=w9);
+    Or(a=w7, b=w8, out=w10);
+    Or(a=w9, b=w10, out=out[0]);
+}

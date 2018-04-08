@@ -1,0 +1,63 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux8Way.hdl
+
+/**
+ * 8-way multiplexor:
+ * out = a if sel == 000
+ *       b if sel == 001
+ *       etc.
+ *       h if sel == 111
+ */
+
+CHIP Mux8Way {
+    IN a, b, c, d, e, f, g, h, sel[3];
+    OUT out;
+
+    PARTS:
+    // Put your code here:
+    Not(in=sel[2],out=w9);
+    Not(in=sel[1],out=w1);
+    Not(in=sel[0],out=w2);
+    Not(in=sel[2],out=w11);
+    Not(in=sel[1],out=w3);
+    Not(in=sel[2],out=w13);
+    Not(in=sel[0],out=w4);
+    Not(in=sel[2],out=w15);
+    Not(in=sel[1],out=w5);
+    Not(in=sel[0],out=w6);
+    Not(in=sel[1],out=w7);
+    Not(in=sel[0],out=w8);
+    And(a=w1,b=w2, out=w10);
+    And(a=w3,b=sel[0], out=w12);
+    And(a=sel[1],b=w4, out=w14);
+    And(a=sel[1],b=sel[0], out=w16);
+    And(a=w5,b=w6, out=w17);
+    And(a=w7,b=sel[0], out=w18);
+    And(a=sel[1],b=w8, out=w19);
+    And(a=sel[1],b=sel[0], out=w20);
+    And(a=w9,b=w10, out=w21);
+    And(a=w11,b=w12, out=w22);
+    And(a=w13,b=w14, out=w23);
+    And(a=w15,b=w16, out=w24);
+    And(a=sel[2],b=w17, out=w25);
+    And(a=sel[2],b=w18, out=w26);
+    And(a=sel[2],b=w19, out=w27);
+    And(a=sel[2],b=w20, out=w28);
+    And(a=a,b=w21, out=wa);
+    And(a=b,b=w22, out=wb);
+    And(a=c,b=w23, out=wc);
+    And(a=d,b=w24, out=wd);
+    And(a=e,b=w25, out=we);
+    And(a=f,b=w26, out=wf);
+    And(a=g,b=w27, out=wg);
+    And(a=h,b=w28, out=wh);
+    Or(a=wa,b=wb, out=wab);
+    Or(a=wc,b=wd, out=wcd);
+    Or(a=we,b=wf, out=wef);
+    Or(a=wg,b=wh, out=wgh);
+    Or(a=wab,b=wcd, out=wabcd);
+    Or(a=wef,b=wgh, out=wefgh);
+    Or(a=wabcd,b=wefgh, out=out);
+}
